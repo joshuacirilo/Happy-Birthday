@@ -54,12 +54,12 @@ If you use the project or want to collaborate, reach out anytime!
 
 ## GitHub Pages Deploy
 
-This project is ready to deploy with GitHub Pages through GitHub Actions.
+This project is ready to deploy with GitHub Pages through the `gh-pages` branch.
 
 1. Push the project to a GitHub repository.
-2. In GitHub, open `Settings > Pages`.
-3. Under `Build and deployment`, set `Source` to `GitHub Actions`.
-4. Push to `main` or `master`.
-5. The workflow in `.github/workflows/deploy.yml` will build the app and publish `dist`.
+2. Push to `main` or `master` so the workflow creates/updates the `gh-pages` branch.
+3. In GitHub, open `Settings > Pages`.
+4. Under `Build and deployment`, set `Source` to `Deploy from a branch`.
+5. Select branch `gh-pages` and folder `/ (root)`.
 
 The app uses hash routing, so routes work correctly on GitHub Pages after refresh.
