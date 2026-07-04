@@ -85,7 +85,7 @@
     max-width: 350px;
     height: 375px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     display: block;
 }
 
@@ -336,21 +336,46 @@
     border-top: 2px solid transparent;
 }
 
-/* Hint text inside the envelope: small, gold, centered and non-interactive */
+/* Hint text: large, gold, independent element outside envelope */
 .small-rajib-envelope-hint {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -10%);
+    position: relative;
+    display: block;
+    text-align: center;
     color: #d4af37; /* gold */
     font-family: 'Dancing Script', cursive;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: lowercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.25);
-    pointer-events: none; /* don't block envelope clicks */
-    z-index: 3;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+    pointer-events: none;
+    animation: pulseHint 1.8s ease-in-out infinite;
+}
+
+.small-rajib-envelope-hint::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid #d4af37; /* arrow pointing down */
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    margin: 12px auto 0;
+    animation: bounceArrow 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseHint {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounceArrow {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+    100% { transform: translateY(0); }
 }
 
 .small-rajib-envelope-detail:before {

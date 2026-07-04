@@ -61,15 +61,16 @@ const SmallLetter = () => {
                 className={`small-rajib-letter ${letterStateClass}`}
                 ref={letterRef} // Attach the ref here
             >
+                {/* Hint text outside the envelope */}
+                <span className="small-rajib-envelope-hint">click me</span>
+
                 <div
                     className="small-rajib-envelope"
                     onClick={handleToggleLetter} // Attach the toggle handler
                 >
                     <div className="small-rajib-envelope-flap"></div>
                     <div className="small-rajib-envelope-paper"></div>
-                    <div className="small-rajib-envelope-detail">
-                        <span className="small-rajib-envelope-hint">click me</span>
-                    </div>
+                    <div className="small-rajib-envelope-detail"></div>
                 </div>
 
                 <div className="small-rajib-paper">
