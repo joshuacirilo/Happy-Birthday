@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 const LoveLetter = () => {
@@ -17,9 +17,7 @@ const LoveLetter = () => {
     const [letters, setLetters] = useState([]);
     const [placedLetters, setPlacedLetters] = useState([]);
     const [showCompletion, setShowCompletion] = useState(false);
-    const [zIndexCounter, setZIndexCounter] = useState(10);
-    const lettersContainerRef = useRef(null);
-    const dropZoneRef = useRef(null);
+    const [activeLetterReady, setActiveLetterReady] = useState(false);
     useEffect(() => {
         setLetters(lettersData);
     }, []);
@@ -29,92 +27,32 @@ const LoveLetter = () => {
             setShowCompletion(true);
         }
     }, [placedLetters, lettersData.length]);
-    // Drag logic
-    const handleMouseDown = (e, letterId) => {
-        if (!openEnvelope) return;
 
-        const isTouch = e.type === "touchstart";
-        const startEvent = isTouch ? e.touches[0] : e;
-
-        if (startEvent.target.tagName === "BUTTON") return;
-
-        const letterEl = e.currentTarget;
-
-        const rect = letterEl.getBoundingClientRect();
-
-        const offsetX = startEvent.clientX - rect.left;
-        const offsetY = startEvent.clientY - rect.top;
-
-        const startLeft = rect.left + window.scrollX;
-        const startTop = rect.top + window.scrollY;
-
-        letterEl.style.transform = "none";
-        letterEl.classList.remove("-translate-x-1/2");
-        letterEl.classList.remove("-translate-y-1/2");
-
-        letterEl.style.position = "absolute";
-        letterEl.style.left = `${startLeft}px`;
-        letterEl.style.top = `${startTop}px`;
-        letterEl.style.margin = 0;
-        letterEl.style.zIndex = zIndexCounter;
-
-        const moveAt = (posX, posY) => {
-            letterEl.style.left = `${posX - offsetX}px`;
-            letterEl.style.top = `${posY - offsetY}px`;
-        };
-
-        const onMouseMove = (moveEvent) => {
-            const ev = isTouch ? moveEvent.touches[0] : moveEvent;
-            moveAt(ev.clientX, ev.clientY);
-        };
-
-        const onMouseUp = () => {
-            if (dropZoneRef.current) {
-                const zoneRect = dropZoneRef.current.getBoundingClientRect();
-                const letterRect = letterEl.getBoundingClientRect();
-                const droppedInside =
-                    letterRect.left < zoneRect.right &&
-                    letterRect.right > zoneRect.left &&
-                    letterRect.top < zoneRect.bottom &&
-                    letterRect.bottom > zoneRect.top;
-
-                if (droppedInside) {
-                    const letterToPlace = lettersData.find((letter) => letter.id === letterId);
-                    if (letterToPlace) {
-                        setLetters((prev) => prev.filter((letter) => letter.id !== letterId));
-                        setPlacedLetters((prev) =>
-                            prev.some((letter) => letter.id === letterId) ? prev : [...prev, letterToPlace]
-                        );
-                    }
-                }
-            }
-
-            if (isTouch) {
-                document.removeEventListener("touchmove", onMouseMove);
-                document.removeEventListener("touchend", onMouseUp);
-            } else {
-                document.removeEventListener("mousemove", onMouseMove);
-                document.removeEventListener("mouseup", onMouseUp);
-            }
-        };
-
-        if (isTouch) {
-            document.addEventListener("touchmove", onMouseMove);
-            document.addEventListener("touchend", onMouseUp);
-        } else {
-            document.addEventListener("mousemove", onMouseMove);
-            document.addEventListener("mouseup", onMouseUp);
+    useEffect(() => {
+        if (!openEnvelope || letters.length === 0) {
+            setActiveLetterReady(false);
+            return;
         }
-    };
 
+        setActiveLetterReady(false);
+        const readyTimer = setTimeout(() => setActiveLetterReady(true), 700);
 
-    const handleCloseLetter = (id) => {
-        setLetters((prev) => prev.filter((l) => l.id !== id));
-    };
+        return () => clearTimeout(readyTimer);
+    }, [openEnvelope, letters.length]);
 
-    const handleLetterClick = (event) => {
+    const handleLetterClick = (event, letterId) => {
         event.preventDefault();
         event.stopPropagation();
+
+        if (!openEnvelope || !activeLetterReady) return;
+
+        const letterToPlace = lettersData.find((letter) => letter.id === letterId);
+        if (!letterToPlace) return;
+
+        setLetters((prev) => prev.filter((letter) => letter.id !== letterId));
+        setPlacedLetters((prev) =>
+            prev.some((letter) => letter.id === letterId) ? prev : [...prev, letterToPlace]
+        );
     };
 
     const navigate = useNavigate();
@@ -142,9 +80,9 @@ const LoveLetter = () => {
             )}
 
             <section className="munna cssletter z-10">
-                <div className="munna golden-drop-zone" ref={dropZoneRef}>
+                {false && <div className="munna golden-drop-zone">
                     <div className="munna golden-drop-zone__title">Lugar dorado</div>
-                    <div className="munna golden-drop-zone__instructions">Arrastra las cartas al lugar dorado</div>
+                    <div className="munna golden-drop-zone__instructions">Haz click en cada carta para guardarla</div>
                     <div className="munna golden-drop-zone__items">
                         {placedLetters.length === 0 ? (
                             <span className="munna golden-drop-zone__empty">Aún no has guardado ninguna carta</span>
@@ -154,7 +92,7 @@ const LoveLetter = () => {
                             ))
                         )}
                     </div>
-                </div>
+                </div>}
 
                 <div className={`envelope ${openEnvelope ? "active" : ""}`}>
                     <button
@@ -178,22 +116,14 @@ const LoveLetter = () => {
                     </div>
                 </div>
 
-                <div className={`munna letters ${openEnvelope ? 'letters-open' : 'letters-closed'}`} ref={lettersContainerRef}>
-                    {openEnvelope && letters.map((letter) => (
+                <div className={`munna letters ${openEnvelope ? 'letters-open' : 'letters-closed'}`}>
+                    {openEnvelope && letters.slice(0, 1).map((letter) => (
                         <blockquote
                             key={letter.id}
-                            className="munna letter center -translate-x-1/2 -translate-y-1/2"
+                            className={`munna letter center active-letter ${activeLetterReady ? 'letter-ready' : ''}`}
                             id={letter.id}
                             tabIndex={0}
-                            style={{
-                                position: 'absolute',
-                                top: window.innerWidth < 768 ? '53%' : '50%',
-                                left: window.innerWidth < 768 ? '50%' : '50%',
-                                transform: 'none',
-                            }}
-                            onClick={handleLetterClick}
-                            onMouseDown={(e) => handleMouseDown(e, letter.id)}
-                            onTouchStart={(e) => handleMouseDown(e, letter.id)}
+                            onClick={(e) => handleLetterClick(e, letter.id)}
                         >
                             <p>{letter.msg}</p>
                             <cite>{letter.name}</cite>
