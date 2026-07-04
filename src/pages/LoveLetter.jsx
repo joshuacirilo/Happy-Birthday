@@ -2,46 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const LoveLetter = () => {
     const lettersData = [
-        {
-            id: 1,
-            name: "Rexon",
-            msg: "Wish you the happiest birthday",
-        },
-        {
-            id: 2,
-            name: "Rexon",
-            msg: "One picture from you can change my whole day, my whole mood, my whole heartbeat.",
-        },
-        {
-            id: 3,
-            name: "Rexon",
-            msg: "Even through screens and pixels, your laugh reaches me like sunlight through a window—warm, real, and impossible to forget.",
-        },
-        {
-            id: 4,
-            name: "Rexon",
-            msg: "Every notification from you feels like a heartbeat whispering, I’m here, and I love you.",
-        },
-        {
-            id: 5,
-            name: "Rexon",
-            msg: "Our messages might travel through wires, but every word you send lands straight in my heart.",
-        },
-        {
-            id: 6,
-            name: "Rexon",
-            msg: "Ever since our we met, my heart knew where it wanted to stay— with you, in every soft moment, every smile, every quiet piece of forever.",
-        },
-        {
-            id: 7,
-            name: "Rexon",
-            msg: " but you turned it into a memory my heart refuses to forget. Since then, every moment with you has felt softer, brighter, and filled with a kind of peace only you bring.",
-        },
-        {
-            id: 8,
-            name: "Rexon",
-            msg: "Since our first conversation, you’ve been the quiet spark that changed my world, turning ordinary days into moments that feel beautifully meant to be.",
-        },
+        { id: 1, name: "Joshua", msg: "Wish you the happiest birthday" },
+        { id: 2, name: "Joshua", msg: "Hay personas que hacen que los momentos sencillos se sientan más bonitos. Tú has sido una de esas personas para mí." },
+        { id: 3, name: "Joshua", msg: "Me gusta compartir música contigo, porque a veces una canción puede decir mucho sin tener que exagerar las palabras." },
+        { id: 4, name: "Joshua", msg: "Me gusta que, incluso a la distancia, podamos encontrar formas de pasar tiempo juntos: una serie, una canción, una conversación o un pequeño momento del día." },
+        { id: 5, name: "Joshua", msg: "Me gusta escuchar sobre las cosas que disfrutas y esos detalles que hacen que conocerte sea algo especial y único." },
+        { id: 6, name: "Joshua", msg: "También me gusta que tengas tus propios gustos, tus ideas y tu forma especial de ver las cosas. Eso hace que cada conversación contigo tenga algo diferente y bonito." },
+        { id: 7, name: "Joshua", msg: "Hoy no quiero escribirte algo exagerado. Solo quiero decirte algo sincero: me alegra haberte conocido y me alegra poder compartir este detalle contigo." },
+        { id: 8, name: "Joshua", msg: "Espero que tu cumpleaños tenga la calma del azul marino, la vida del verde, lo agradable de tu personalidad y muchas risas bonitas." },
+        { id: 9, name: "Joshua", msg: "Joshua" },
     ];
     const [openEnvelope, setOpenEnvelope] = useState(false);
     const [letters, setLetters] = useState([]);
@@ -127,7 +96,7 @@ const LoveLetter = () => {
                     <div className="munna envelope-flap text-black relative">
                         <div className='munna absolute left-1/2 top-[20%] -translate-x-1/2 flex items-center justify-center flex-col md:gap-y-2'>
                             <span className='munna font-sriracha md:text-2xl text-lg'>Envelope Of Love</span>
-                            <span className='munna font-dancingScript md:text-3xl text-xl'>Dear Trisha</span>
+                            <span className='munna font-dancingScript md:text-3xl text-xl'>Dear Elizabeth</span>
                         </div>
                     </div>
                     <div className="munna envelope-folds">

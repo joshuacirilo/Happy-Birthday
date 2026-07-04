@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import orihime from '../assets/orihime.jpg'
+import orihime from '../assets/orihime.jpeg'
 import { GiCrossMark } from 'react-icons/gi'
 
 const BookCanvas = ({ active, setActive }) => {
@@ -29,13 +29,13 @@ const BookCanvas = ({ active, setActive }) => {
                 <div className="card1">
                     <div className="cover-text-wrapper">
                         <h4 className="username">
-                            Dear Trisha<span className="underline"></span>
+                            Dear Elizabeth<span className="underline"></span>
                         </h4>
                         <h3 className="cover-title">
                             Happy Birthday!
                         </h3>
                         <p className="cover-subtitle">
-                            A purr-fect message just for you... 💌
+                            A little message just for you... 💌
                         </p>
                     </div>
 
@@ -66,13 +66,13 @@ const BookCanvas = ({ active, setActive }) => {
                             To You!
                         </h3>
 
-                        {/* Swapping back to H2 to match the original CSS targeting */}
                         <div className="card2-message-text italic">
-                            <article style={{ marginBottom: '8px' }}>Happy Birthday, Trisha ❤️</article>
-                            <article style={{ marginBottom: '10px' }}>From the moment we met, something in my life shifted—like the universe quietly guiding me toward someone meant for me.You brought warmth into the parts of me I didn’t even know were cold, And you expanded my days with a dimension I can only call my own.</article>
-                            <article style={{ marginBottom: '10px' }}>On your birthday, I just want you to know this: I want you with me in every chapter, every storm, every sunshine, every tomorrow. No matter what comes, I’ll be on your side—always. I’ll choose you, protect you, stand with you, and love you in ways that remind you you’re never alone.</article>
-                            <article style={{ marginBottom: '10px' }}>You’re not just another year older today… <br />
-                                you’re the reason my life feels softer, brighter, and endlessly worth living. Happy Birthday.</article>
+                            <article style={{ marginBottom: '8px' }}>Happy Birthday, Elizabeth 🌷</article>
+                            <article style={{ marginBottom: '10px' }}>Quise hacerte este pequeño detalle porque hoy quería que tu día empezara con algo bonito, tranquilo y especial.</article>
+                            <article style={{ marginBottom: '10px' }}>Me gusta mucho conocerte poco a poco. Me gusta compartir música contigo, ver series juntos, hablar de cosas sencillas y descubrir esos pequeños gustos que te hacen ser tú.</article>
+                            <article style={{ marginBottom: '10px' }}>Hay detalles tuyos que me parecen muy lindos: tu forma de hablar, tu manera de compartir lo que te gusta y esa forma tan tuya de hacer que los momentos simples se sientan bonitos.</article>
+                            <article style={{ marginBottom: '10px' }}>Espero que esta nueva etapa te traiga paz, y mucha alegría jajaja, momentos especiales y muchas razones para sonreír. Que nunca te falten personas que te quieran bien, que te cuiden y que valoren la persona tan especial que eres.</article>
+                            <article style={{ marginBottom: '10px' }}>Hoy quiero desearte un cumpleaños especial, tranquilo y lleno de detalles que te hagan sentir querida. Espero que este pequeño regalo te saque una sonrisa.</article>
                         </div>
 
                         <div className="card2-decoration"></div> {/* Decoration */}
@@ -91,7 +91,7 @@ const BookCanvas = ({ active, setActive }) => {
                         <div className="confetti-dots"></div>
 
                         <p className="signature">
-                            Your Best Friend, Rexon
+                            Con cariño, Joshua
                         </p>
                     </div>
                 </div>

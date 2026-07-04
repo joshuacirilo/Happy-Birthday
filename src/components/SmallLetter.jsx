@@ -71,14 +71,14 @@ const SmallLetter = () => {
                 </div>
 
                 <div className="small-rajib-paper">
-    <div className="small-rajib-paper-content">
+        <div className="small-rajib-paper-content">
         <div
             className="small-rajib-paper-close"
-            onClick={handleCloseLetter} // Attach the close handler
+            onClick={handleCloseLetter}
         >
             x
         </div>
-        <p>Yo brocaccho,<br /><br />Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud <br /><br />Rajib</p>
+        <p>Hey Elizabeth,<br /><br />Solo quería dejarte una nota pequeña para recordarte que hoy es tu día y que espero que lo disfrutes mucho. Que tengas un cumpleaños especial y lleno de momentos que te hagan sonreír.<br /><br />Joshua</p>
     </div>
 
     {/* --- NEW SVG DIARY PAGE DECORATION --- */}
