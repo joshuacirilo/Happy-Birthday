@@ -67,7 +67,9 @@ const SmallLetter = () => {
                 >
                     <div className="small-rajib-envelope-flap"></div>
                     <div className="small-rajib-envelope-paper"></div>
-                    <div className="small-rajib-envelope-detail"></div>
+                    <div className="small-rajib-envelope-detail">
+                        <span className="small-rajib-envelope-hint">click me</span>
+                    </div>
                 </div>
 
                 <div className="small-rajib-paper">

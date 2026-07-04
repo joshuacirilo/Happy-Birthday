@@ -148,6 +148,29 @@ body {
     animation: rotateHeart 1s infinite linear;
 }
 
+/* Fix: ensure SVG icons inside pill buttons are fully visible and centered */
+#btn__letter .mail,
+#FromJoshua a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+}
+
+#btn__letter svg,
+#FromJoshua svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: block;
+    vertical-align: middle;
+}
+
+#btn__letter,
+#FromJoshua {
+    overflow: visible;
+}
+
 @keyframes rotateHeart {
 
     0%,

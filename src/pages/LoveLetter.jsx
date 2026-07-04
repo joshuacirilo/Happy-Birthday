@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 const LoveLetter = () => {
     const lettersData = [
@@ -14,13 +15,24 @@ const LoveLetter = () => {
     ];
     const [openEnvelope, setOpenEnvelope] = useState(false);
     const [letters, setLetters] = useState([]);
+    const [placedLetters, setPlacedLetters] = useState([]);
+    const [showCompletion, setShowCompletion] = useState(false);
     const [zIndexCounter, setZIndexCounter] = useState(10);
     const lettersContainerRef = useRef(null);
+    const dropZoneRef = useRef(null);
     useEffect(() => {
         setLetters(lettersData);
     }, []);
+
+    useEffect(() => {
+        if (placedLetters.length === lettersData.length) {
+            setShowCompletion(true);
+        }
+    }, [placedLetters, lettersData.length]);
     // Drag logic
-    const handleMouseDown = (e) => {
+    const handleMouseDown = (e, letterId) => {
+        if (!openEnvelope) return;
+
         const isTouch = e.type === "touchstart";
         const startEvent = isTouch ? e.touches[0] : e;
 
@@ -57,6 +69,26 @@ const LoveLetter = () => {
         };
 
         const onMouseUp = () => {
+            if (dropZoneRef.current) {
+                const zoneRect = dropZoneRef.current.getBoundingClientRect();
+                const letterRect = letterEl.getBoundingClientRect();
+                const droppedInside =
+                    letterRect.left < zoneRect.right &&
+                    letterRect.right > zoneRect.left &&
+                    letterRect.top < zoneRect.bottom &&
+                    letterRect.bottom > zoneRect.top;
+
+                if (droppedInside) {
+                    const letterToPlace = lettersData.find((letter) => letter.id === letterId);
+                    if (letterToPlace) {
+                        setLetters((prev) => prev.filter((letter) => letter.id !== letterId));
+                        setPlacedLetters((prev) =>
+                            prev.some((letter) => letter.id === letterId) ? prev : [...prev, letterToPlace]
+                        );
+                    }
+                }
+            }
+
             if (isTouch) {
                 document.removeEventListener("touchmove", onMouseMove);
                 document.removeEventListener("touchend", onMouseUp);
@@ -80,10 +112,50 @@ const LoveLetter = () => {
         setLetters((prev) => prev.filter((l) => l.id !== id));
     };
 
+    const handleLetterClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const navigate = useNavigate();
+
+    const handleReturnHome = () => {
+        navigate('/')
+    };
 
     return (
         <main className='munna bg-[#8b0000] h-screen w-full overflow-hidden'>
+            {showCompletion && (
+                <div className="munna completion-screen">
+                    <div className="munna completion-card">
+                        <div className="munna completion-cards">
+                            {placedLetters.map((letter) => (
+                                <div key={letter.id} className="munna completion-card-item">
+                                    <p>{letter.msg}</p>
+                                    <cite>{letter.name}</cite>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={handleReturnHome}>Regresar a inicio</button>
+                    </div>
+                </div>
+            )}
+
             <section className="munna cssletter z-10">
+                <div className="munna golden-drop-zone" ref={dropZoneRef}>
+                    <div className="munna golden-drop-zone__title">Lugar dorado</div>
+                    <div className="munna golden-drop-zone__instructions">Arrastra las cartas al lugar dorado</div>
+                    <div className="munna golden-drop-zone__items">
+                        {placedLetters.length === 0 ? (
+                            <span className="munna golden-drop-zone__empty">Aún no has guardado ninguna carta</span>
+                        ) : (
+                            placedLetters.map((letter) => (
+                                <span key={letter.id} className="munna golden-drop-zone__item"></span>
+                            ))
+                        )}
+                    </div>
+                </div>
+
                 <div className={`envelope ${openEnvelope ? "active" : ""}`}>
                     <button
                         className="munna heart"
@@ -106,8 +178,8 @@ const LoveLetter = () => {
                     </div>
                 </div>
 
-                <div className="munna letters" ref={lettersContainerRef}>
-                    {letters.map((letter) => (
+                <div className={`munna letters ${openEnvelope ? 'letters-open' : 'letters-closed'}`} ref={lettersContainerRef}>
+                    {openEnvelope && letters.map((letter) => (
                         <blockquote
                             key={letter.id}
                             className="munna letter center -translate-x-1/2 -translate-y-1/2"
@@ -119,17 +191,10 @@ const LoveLetter = () => {
                                 left: window.innerWidth < 768 ? '50%' : '50%',
                                 transform: 'none',
                             }}
-
+                            onClick={handleLetterClick}
                             onMouseDown={(e) => handleMouseDown(e, letter.id)}
-                            onTouchStart={handleMouseDown}
+                            onTouchStart={(e) => handleMouseDown(e, letter.id)}
                         >
-                            <button
-                                className="munna closeLetter"
-                                title={`Close ${letter.name}'s letter`}
-                                onClick={() => handleCloseLetter(letter.id)}
-                            >
-                                Close {letter.name}'s letter
-                            </button>
                             <p>{letter.msg}</p>
                             <cite>{letter.name}</cite>
                         </blockquote>

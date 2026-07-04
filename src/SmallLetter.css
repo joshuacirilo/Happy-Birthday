@@ -336,6 +336,23 @@
     border-top: 2px solid transparent;
 }
 
+/* Hint text inside the envelope: small, gold, centered and non-interactive */
+.small-rajib-envelope-hint {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -10%);
+    color: #d4af37; /* gold */
+    font-family: 'Dancing Script', cursive;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    pointer-events: none; /* don't block envelope clicks */
+    z-index: 3;
+}
+
 .small-rajib-envelope-detail:before {
     content: '';
     width: 70px;
