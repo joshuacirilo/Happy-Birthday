@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import './LoveLetter.css'
 import './BookCanvas.css'
@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import LoveLetter from './pages/LoveLetter'
 import Test from './pages/Test'
 import OpeningAnimation from './components/OpeningAnimation'
+import birthdayMusic from './music/Mystery of Love - Sufjan Stevens subtitulado al español - itspandasfirst (128k).mp3'
 
 const App = () => {
 
@@ -27,13 +28,19 @@ const App = () => {
   const [showContent, setShowContent] = useState(false);
   const [animateOut, setAnimateOut] = useState(false); // New state for animation
   const [transitionReady, setTransitionReady] = useState(false);
+  const [started, setStarted] = useState(false);
+  const musicRef = useRef(null);
 
   useEffect(() => {
+    if (!started) return;
+
+    const timers = [];
+
     const handlePageLoad = () => {
-      setTimeout(() => setTransitionReady(true), 7800);
-      setTimeout(() => setShowContent(true), 8000);
-      setTimeout(() => setAnimateOut(true), 8400);
-      setTimeout(() => setLoading(false), 9800);
+      timers.push(setTimeout(() => setTransitionReady(true), 7800));
+      timers.push(setTimeout(() => setShowContent(true), 8000));
+      timers.push(setTimeout(() => setAnimateOut(true), 8400));
+      timers.push(setTimeout(() => setLoading(false), 9800));
     };
 
     if (document.readyState === "complete") {
@@ -42,8 +49,45 @@ const App = () => {
       window.addEventListener("load", handlePageLoad);
     }
 
-    return () => window.removeEventListener("load", handlePageLoad);
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener("load", handlePageLoad);
+    };
+  }, [started]);
+
+  useEffect(() => {
+    const audio = new Audio(birthdayMusic);
+    audio.loop = true;
+    audio.preload = 'auto';
+    musicRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
   }, []);
+
+  const handleStartExperience = async () => {
+    try {
+      await musicRef.current?.play();
+    } catch (error) {
+      console.warn('Music playback could not start:', error);
+    }
+
+    setStarted(true);
+  };
+
+  if (!started) {
+    return (
+      <div className="app-shell">
+        <div className="start-screen">
+          <button className="start-screen__button" onClick={handleStartExperience}>
+            Start
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
