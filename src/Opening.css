@@ -3,18 +3,48 @@
 #CakeWrapper {
     width: 400px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 /* --- Base style for the loader container --- */
 .loader-wrapper {
-    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-out;
+    background-color: #ee9ca7;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-out, background-color 0.25s ease-out;
     transform: translateY(0);
     opacity: 1;
+    z-index: 9999;
+    pointer-events: auto;
+    visibility: visible;
 }
+
+.loader-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    background-color: var(--color-pink);
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent);
+    background-size: 80px 80px;
+    transition: opacity 0.25s ease-out;
+}
+
+.loader-wrapper.home-background-ready {
+    background-color: var(--color-pink);
+}
+
+.loader-wrapper.home-background-ready::before {
+    opacity: 1;
+}
+
 .slide-up-fade-out {
     transform: translateY(-100vh);
     opacity: 0;
+    pointer-events: none;
     visibility: hidden;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-out, visibility 0s linear 1.2s;
 }
 
 /* --- SVG Wrapper Styles (No change) --- */

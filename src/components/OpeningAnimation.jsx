@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import '../Opening.css'
 
-const OpeningAnimation = ({ animateOut }) => {
+const OpeningAnimation = ({ animateOut, transitionReady }) => {
 
   const makeItRain = () => {
     let disabled = true;
@@ -36,12 +36,16 @@ const OpeningAnimation = ({ animateOut }) => {
     frame();
   };
 
-  setTimeout(() => {
-    makeItRain()
-  }, 6800);
+  useEffect(() => {
+    const confettiTimer = setTimeout(() => {
+      makeItRain()
+    }, 6800);
+
+    return () => clearTimeout(confettiTimer);
+  }, []);
 
   return (
-    <main className={`bg-[#ee9ca7] w-full h-screen overflow-hidden absolute top-0 left-0 loader-wrapper ${animateOut ? 'slide-up-fade-out' : ''}`}>
+    <main className={`w-full h-screen overflow-hidden absolute top-0 left-0 loader-wrapper ${transitionReady ? 'home-background-ready' : ''} ${animateOut ? 'slide-up-fade-out' : ''}`}>
       {/* --- SVG Decoration Container --- */}
       <svg className="full-screen-deco" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
         {/* Large, slow-moving circle (soft cloud/bubble) - existing */}

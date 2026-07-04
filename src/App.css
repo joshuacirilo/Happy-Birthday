@@ -27,6 +27,37 @@ body {
     background-image: linear-gradient(var(--color-pink), var(--color-pink));
 }
 
+html,
+body,
+#root {
+    min-height: 100%;
+    background-color: var(--color-pink);
+}
+
+.app-shell {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: var(--color-pink);
+}
+
+.app-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: var(--color-pink);
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent);
+    background-size: 80px 80px;
+}
+
+.app-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
 #wrapper {
     position: relative;
     background-color: transparent;
@@ -91,7 +122,7 @@ body {
     margin-top: 30px;
     background-color: var(--color-text-pink);
     outline: none;
-    padding: 5px 15px;
+    padding: 6px 16px;
     border-radius: 50px;
     border: 3px solid var(--color-black);
     font-family: "Sriracha", cursive;
@@ -99,13 +130,18 @@ body {
     z-index: 2;
     transform: scale(1);
     transition: all .5s ease-in-out;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 #FromJoshua {
     margin-top: 30px;
     background-color: var(--color-text-pink);
     outline: none;
-    padding: 5px 15px;
+    padding: 6px 16px;
     border-radius: 50px;
     border: 3px solid var(--color-black);
     font-family: "Sriracha", cursive;
@@ -116,6 +152,8 @@ body {
     z-index: 2;
     transform: scale(1);
     transition: all .5s ease-in-out;
+    min-height: 44px;
+    line-height: 1;
 }
 
 #btn__letter:active {
@@ -153,17 +191,25 @@ body {
 #FromJoshua a {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    line-height: 1;
+    width: 100%;
+    min-height: 28px;
+    line-height: 1.15;
+    overflow: visible;
+    white-space: nowrap;
 }
 
 #btn__letter svg,
 #FromJoshua svg {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     flex-shrink: 0;
     display: block;
     vertical-align: middle;
+    overflow: visible;
+    transform-box: fill-box;
+    transform-origin: center;
 }
 
 #btn__letter,
@@ -339,10 +385,14 @@ body {
 .right .box__account {
     position: relative;
     transform: translateY(700px);
-    animation: topBoxImage 8s 7s forwards ease-in;
+    animation: topBoxImage 8s 7s forwards cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes topBoxImage {
+    from {
+        transform: translateY(700px);
+    }
+
     to {
         transform: translateY(0);
     }
@@ -476,7 +526,7 @@ body {
     right: -65px;
     z-index: -1;
     transform: rotate(10deg);
-    animation: balloon2 2s infinite linear;
+    animation: balloon2 2.6s 15s infinite ease-in-out;
 }
 
 @keyframes balloon2 {
@@ -988,11 +1038,19 @@ body {
     #btn__letter {
         margin-top: 15px;
         width: 200px;
+        min-height: 44px;
     }
 
     #FromJoshua {
         margin-top: 10px;
         width: 200px;
+        min-height: 44px;
+    }
+
+    #btn__letter svg,
+    #FromJoshua svg {
+        width: 24px;
+        height: 24px;
     }
 }
 

@@ -26,12 +26,14 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [animateOut, setAnimateOut] = useState(false); // New state for animation
+  const [transitionReady, setTransitionReady] = useState(false);
 
   useEffect(() => {
     const handlePageLoad = () => {
+      setTimeout(() => setTransitionReady(true), 7800);
+      setTimeout(() => setShowContent(true), 8000);
       setTimeout(() => setAnimateOut(true), 8400);
-      setTimeout(() => setLoading(false), 9000);
-      setTimeout(() => setShowContent(true), 8600);
+      setTimeout(() => setLoading(false), 9800);
     };
 
     if (document.readyState === "complete") {
@@ -44,14 +46,16 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      {
-        loading && <OpeningAnimation animateOut={animateOut}/>
-      }
-      {
-        showContent && <RouterProvider router={MyRoute} />
-      }
-    </>
+    <div className="app-shell">
+      <div className="app-content">
+        {
+          loading && <OpeningAnimation animateOut={animateOut} transitionReady={transitionReady}/>
+        }
+        {
+          showContent && <RouterProvider router={MyRoute} />
+        }
+      </div>
+    </div>
   )
 }
 
