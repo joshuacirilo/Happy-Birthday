@@ -8,19 +8,38 @@ const HeartTransition = ({ children }) => {
     const isInitialMount = useRef(true); 
 
     useEffect(() => {
+        let isCancelled = false;
+
+        const finishLoadingAfter = (delay) => {
+            const minTime = new Promise(res => setTimeout(res, delay));
+            const idleTime = new Promise(res => {
+                if (typeof window.requestIdleCallback === 'function') {
+                    window.requestIdleCallback(res, { timeout: 2000 });
+                } else {
+                    setTimeout(res, 0);
+                }
+            });
+
+            Promise.all([minTime, idleTime]).then(() => {
+                if (!isCancelled) setLoading(false);
+            });
+        };
+
         if (isInitialMount.current) {
             isInitialMount.current = false; 
-            const minTime = new Promise(res => setTimeout(res, 100));
-            Promise.all([minTime]).then(() => setLoading(false));
+            finishLoadingAfter(100);
 
-            return;
+            return () => {
+                isCancelled = true;
+            };
         }
 
         setLoading(true);
-        const minTime = new Promise(res => setTimeout(res, 7000));
-        const loadDone = new Promise(res => window.requestIdleCallback(res, { timeout: 2000 }));
+        finishLoadingAfter(7000);
 
-        Promise.all([minTime, loadDone]).then(() => setLoading(false));
+        return () => {
+            isCancelled = true;
+        };
     }, [location.pathname]);
 
 
